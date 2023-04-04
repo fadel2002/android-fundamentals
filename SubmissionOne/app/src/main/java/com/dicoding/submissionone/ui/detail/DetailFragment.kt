@@ -19,8 +19,8 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val detailViewModel by activityViewModels<DetailViewModel>()
     private lateinit var tempValue : UserResponse
-    private val maxStringOnLandscape : Int = 40
-    private val maxStringOnPotrait : Int = 10
+    private val maxStringOnLandscape : Int = 100
+    private val maxStringOnPotrait : Int = 40
 
     companion object {
         private val TAB_TITLES = intArrayOf(
@@ -98,7 +98,7 @@ class DetailFragment : Fragment() {
     private fun setUserData(userData: UserResponse?, maxLength: Int) {
         binding.tvName.text = userData?.name ?: "-"
         binding.tvUsername.text = cutString(("@" + userData?.login), maxLength)
-        binding.tvUserCompany.text = cutString(userData?.company, maxLength+20)
+        binding.tvUserCompany.text = cutString(userData?.company, maxLength)
         binding.tvUserOrigin.text = cutString(userData?.location, maxLength)
 
         val FOLLOW = listOf<String>(
@@ -121,11 +121,18 @@ class DetailFragment : Fragment() {
         if (originalString == null){
             return "-"
         }
-        return if (originalString?.length!! > maxLength) {
-            originalString?.substring(0, maxLength) + "..."
-        } else {
-            originalString ?: "-"
+        val builder = StringBuilder(originalString)
+        var i = 0
+        while (i + maxLength < builder.length) {
+            val indexOfLastSpace = builder.substring(i, i + maxLength + 1).lastIndexOf(" ")
+            if (indexOfLastSpace > 0) {
+                builder.setCharAt(i + indexOfLastSpace, '\n')
+            } else {
+                builder.insert(i + maxLength, '\n')
+            }
+            i += indexOfLastSpace + 1
         }
+        return builder.toString() ?: "-"
     }
 
     private fun showLoading(isLoading: Boolean) {
