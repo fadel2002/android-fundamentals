@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
@@ -34,11 +35,16 @@ class HomeFragment : Fragment() {
         ViewModelFactory.getInstance(requireActivity())
     }
 
+    private var settingViewModel: SettingViewModel? = null
+
+    private var isDarkMode = false
+    private var boolSearchFromFavorite = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -78,7 +84,10 @@ class HomeFragment : Fragment() {
                 }
                 R.id.users -> {
                     // Respond to navigation item 2 click
-                    homeViewModel.loadListUser()
+                    if (!boolSearchFromFavorite){
+                        homeViewModel.loadListUser()
+                    }
+                    boolSearchFromFavorite = false
                     binding.swipeRefresh.isEnabled = true
                     true
                 }
@@ -89,11 +98,9 @@ class HomeFragment : Fragment() {
         binding.bottomNavigation.setOnItemReselectedListener { item ->
             when(item.itemId) {
                 R.id.favorite -> {
-                    // Respond to reselected item 1 click
                     true
                 }
                 R.id.users -> {
-                    // Respond to reselected item 2 click
                     true
                 }
                 else -> false
@@ -101,31 +108,23 @@ class HomeFragment : Fragment() {
         }
 
         val pref = SettingPreferences.getInstance(requireContext().dataStore)
-        val settingViewModel = ViewModelProvider(this, PreferenceViewModelFactory(pref)).get(
-            SettingViewModel::class.java
-        )
-        settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
-            if (isDarkModeActive) {
+        settingViewModel = ViewModelProvider(this, PreferenceViewModelFactory(pref))[SettingViewModel::class.java]
+        settingViewModel?.getThemeSettings()?.observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
+            isDarkMode = if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                switchTheme.isChecked = true
+                true
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                switchTheme.isChecked = false
+                false
             }
         }
-
-        switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            mainViewModel.saveThemeSetting(isChecked)
-        }
     }
-
-    var test = 2
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
 
         val searchView = menu.findItem(R.id.search).actionView as SearchView
-        var searchText: String = ""
+        var searchText = ""
 
         binding.swipeRefresh.setOnRefreshListener {
             if (searchText.isNullOrEmpty()){
@@ -136,6 +135,8 @@ class HomeFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                boolSearchFromFavorite = true
+                binding.bottomNavigation.selectedItemId = R.id.users
                 if (query.isNotEmpty()) {
                     homeViewModel.searchUsername(query)
                     searchView.clearFocus()
@@ -144,19 +145,19 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isNullOrEmpty()) {
+                searchText = if (newText.isNullOrEmpty()) {
                     // User has cleared the search bar
-                    searchText = ""
+                    ""
                 } else {
                     // User is typing in the search bar
-                    searchText = newText
+                    newText
                 }
                 return false
             }
         })
         
         val theme = menu.findItem(R.id.theme)
-        if (test == 1){
+        if (!isDarkMode){
             theme.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_light_mode_24)
         }else {
             theme.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_dark_mode_24)
@@ -173,12 +174,14 @@ class HomeFragment : Fragment() {
                 true
             }
             R.id.theme -> {
-                if (test == 1){
+                if (!isDarkMode){
                     item.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_dark_mode_24)
-                    test = 2
+                    isDarkMode = true
+                    settingViewModel?.saveThemeSetting(true)
                 }else {
                     item.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_light_mode_24)
-                    test = 1
+                    isDarkMode = false
+                    settingViewModel?.saveThemeSetting(false)
                 }
                 true
             }

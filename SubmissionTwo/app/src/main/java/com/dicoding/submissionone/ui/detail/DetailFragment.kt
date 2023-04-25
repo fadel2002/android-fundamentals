@@ -11,7 +11,6 @@ import com.dicoding.submissionone.data.UserResponse
 import com.dicoding.submissionone.databinding.FragmentDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.dicoding.submissionone.data.localdatabase.FavoriteUser
@@ -38,7 +37,7 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -102,7 +101,7 @@ class DetailFragment : Fragment() {
         binding.buttonFavorite.addOnCheckedChangeListener { button, isChecked ->
             if (isChecked){
                 button.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_favorite_filled_24)
-                var user = FavoriteUser()
+                val user = FavoriteUser()
                 user.let{
                     it.login = detailViewModel.username.value.toString()
                     it.avatarUrl = detailViewModel.userData.value?.avatarUrl
@@ -110,7 +109,7 @@ class DetailFragment : Fragment() {
                 detailViewModel.insertFavorite(user)
             } else {
                 button.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_favorite_border_24)
-                var user = FavoriteUser()
+                val user = FavoriteUser()
                 user.login = detailViewModel.username.value.toString()
                 detailViewModel.deleteFavorite(user)
             }
@@ -134,7 +133,7 @@ class DetailFragment : Fragment() {
         binding.tvUserCompany.text = cutString(userData?.company, maxLength)
         binding.tvUserOrigin.text = cutString(userData?.location, maxLength)
 
-        val follow = listOf<String>(
+        val follow = listOf(
             "("+detailViewModel.userData.value?.followers.toString()+")",
             "("+detailViewModel.userData.value?.following.toString()+")",
         )
@@ -165,7 +164,7 @@ class DetailFragment : Fragment() {
             }
             i += indexOfLastSpace + 1
         }
-        return builder.toString() ?: "-"
+        return builder.toString()
     }
 
     private fun showLoading(isLoading: Boolean) {

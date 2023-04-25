@@ -9,16 +9,12 @@ class AboutViewModel : ViewModel() {
     private val _userData = MutableLiveData<Map<String, String>>()
     val userData: LiveData<Map<String, String>> = _userData
 
-    companion object {
-        private const val TAG = "AboutViewModel"
-    }
-
     init {
         loadUserData()
     }
 
-    fun loadUserData() {
-        val data = mapOf<String, String>("name" to "Fadel Pramaputra Maulana",
+    private fun loadUserData() {
+        val data = mapOf("name" to "Fadel Pramaputra Maulana",
                                     "interest" to "Android Developer",
                                     "origin" to "Balikpapan, Indonesia",
                                     "email" to "fadelpm2002@gmail.com",

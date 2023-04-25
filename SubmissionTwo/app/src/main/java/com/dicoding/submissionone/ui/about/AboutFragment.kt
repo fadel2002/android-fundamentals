@@ -20,7 +20,7 @@ class AboutFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAboutBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,12 +57,12 @@ class AboutFragment : Fragment() {
             .into(binding.imgItemPhoto)
 
         binding.bVisitInstagram.setOnClickListener {
-            var browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(userData["instagram"]));
-            startActivity(browserIntent);
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(userData["instagram"]))
+            startActivity(browserIntent)
         }
         binding.bVisitGithub.setOnClickListener {
-            var browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(userData["github"]));
-            startActivity(browserIntent);
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(userData["github"]))
+            startActivity(browserIntent)
         }
     }
 

@@ -5,12 +5,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.dicoding.submissionone.data.UserResponse
 import com.dicoding.submissionone.data.api.ApiConfig
 import com.dicoding.submissionone.data.localdatabase.FavoriteUser
 import com.dicoding.submissionone.repository.FavoriteUserRepository
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

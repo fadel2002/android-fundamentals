@@ -8,7 +8,7 @@ import com.dicoding.submissionone.ui.detail.follow.FollowFragment
 class DetailSectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
-        var fragment: Fragment = FollowFragment()
+        val fragment: Fragment = FollowFragment()
         val bundle = Bundle()
         when(position) {
             0 -> {
@@ -19,7 +19,7 @@ class DetailSectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(frag
             }
         }
         fragment.arguments = bundle
-        return fragment as Fragment
+        return fragment
     }
 
     override fun getItemCount(): Int {

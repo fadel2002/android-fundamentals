@@ -23,6 +23,6 @@ class FavoriteUserRepository(application: FragmentActivity) {
         }
     }
     fun delete(user: FavoriteUser) {
-        executorService.execute { mFavoriteUserDao.delete(user.login.toString()) }
+        executorService.execute { mFavoriteUserDao.delete(user.login) }
     }
 }

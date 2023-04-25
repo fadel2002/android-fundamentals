@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.submissionone.ui.detail.DetailViewModel
 import com.dicoding.submissionone.ui.home.HomeViewModel
-import com.dicoding.submissionone.ui.home.setting.SettingViewModel
 
 class ViewModelFactory private constructor(private val mApplication: FragmentActivity) : ViewModelProvider.NewInstanceFactory() {
     companion object {
