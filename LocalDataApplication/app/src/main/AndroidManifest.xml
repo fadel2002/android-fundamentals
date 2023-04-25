@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LocalDataApplication"
+        tools:targetApi="31">
+        <activity
+            android:name=".alarmmanager.AlarmOneTimeMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".notifnavigation.NotifNavigationDetailActivity"
+            android:exported="false"
+            android:label="@string/activity_detail"
+            android:parentActivityName=".notifnavigation.NotifNavigationMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".notifnavigation.NotifNavigationMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".simplenotif.SimpleNotifMainActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".broadcastreceiver.DownloadService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".broadcastreceiver.SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".broadcastreceiver.SmsReceiverActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Broadcast.SmsReceiver" />
+        <activity
+            android:name=".broadcastreceiver.BroadcastReceiverMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".room.ui.main.NoteAddMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".room.ui.insert.NoteAddUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".sqlite.SQLiteMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sqlite.NoteAddUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".datastore.DataStoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".settingpreference.SettingPreferenceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sharedpreferences.FormUserPreferenceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".filestorage.FileStorageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sharedpreferences.SharedPreferencesActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".alarmmanager.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>

@@ -1,4 +1,4 @@
-package com.dicoding.myunittest
+package com.dicoding.submissionone
 
 import org.junit.Test
 
