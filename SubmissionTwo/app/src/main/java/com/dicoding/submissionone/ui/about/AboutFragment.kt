@@ -37,12 +37,6 @@ class AboutFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.title = "About"
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-
-        val scrollView = binding.scrollView
-        val decorView = (activity as AppCompatActivity).window.decorView
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
     }
 
     private fun setUserData(userData: Map<String, String>) {

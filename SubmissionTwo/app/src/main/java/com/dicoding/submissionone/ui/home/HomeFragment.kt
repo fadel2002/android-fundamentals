@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
@@ -124,10 +123,11 @@ class HomeFragment : Fragment() {
         inflater.inflate(R.menu.home_menu, menu)
 
         val searchView = menu.findItem(R.id.search).actionView as SearchView
+        searchView.queryHint = getString(androidx.appcompat.R.string.abc_search_hint)
         var searchText = ""
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (searchText.isNullOrEmpty()){
+            if (searchText.isEmpty()){
                 homeViewModel.loadListUser()
             }
             binding.swipeRefresh.isRefreshing = false
@@ -145,12 +145,9 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                searchText = if (newText.isNullOrEmpty()) {
+                searchText = newText.ifEmpty {
                     // User has cleared the search bar
                     ""
-                } else {
-                    // User is typing in the search bar
-                    newText
                 }
                 return false
             }

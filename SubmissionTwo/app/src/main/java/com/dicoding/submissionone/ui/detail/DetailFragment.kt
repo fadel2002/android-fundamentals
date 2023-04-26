@@ -92,12 +92,6 @@ class DetailFragment : Fragment() {
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
-        val scrollView = binding.scrollView
-        val decorView = (activity as AppCompatActivity).window.decorView
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
-
         binding.buttonFavorite.addOnCheckedChangeListener { button, isChecked ->
             if (isChecked){
                 button.icon = ContextCompat.getDrawable(requireContext(),R.drawable.baseline_favorite_filled_24)
@@ -172,8 +166,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun clearUserData(){
-        binding.tvName.text = "Name"
-        binding.tvUsername.text = "Username"
+        binding.tvName.text = getString(R.string.name)
+        binding.tvUsername.text = getString(R.string.username)
         binding.imgItemPhoto.setImageResource(android.R.color.white)
     }
 

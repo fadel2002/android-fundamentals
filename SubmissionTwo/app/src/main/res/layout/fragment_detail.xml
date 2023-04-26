@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detail.DetailFragment"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    style="@style/BackgroundColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                app:theme="@style/ToolBarStyle"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +37,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_marginBottom="-80dp"
-            android:background="@color/purple_200"
+            android:background="?attr/colorSecondary"
             app:layout_constraintBottom_toTopOf="@+id/img_item_photo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -79,6 +80,7 @@
             android:layout_height="23dp"
             android:layout_marginRight="6dp"
             android:contentDescription="@string/icon_company_content_desc"
+            style="@style/IconColor"
             android:src="@drawable/baseline_home_work_24"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_company"
             app:layout_constraintEnd_toStartOf="@+id/tv_user_company"
@@ -106,6 +108,7 @@
             android:layout_marginRight="6dp"
             android:contentDescription="@string/icon_origin_content_desc"
             android:src="@drawable/baseline_location_on_24"
+            style="@style/IconColor"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_origin"
             app:layout_constraintEnd_toStartOf="@+id/tv_user_origin"
             app:layout_constraintTop_toTopOf="@+id/tv_user_origin"
@@ -134,7 +137,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_username"
             app:layout_constraintTop_toTopOf="@+id/tv_username"
             app:layout_constraintVertical_bias="0.0"
-            app:tint="@color/black" />
+            style="@style/IconColor" />
 
         <TextView
             android:id="@+id/tv_username"
@@ -162,13 +165,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
+            style="@style/TabStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_company"
-            app:tabIndicatorColor="@color/purple_200"
-            app:tabSelectedTextColor="@color/purple_200"
-            app:tabTextColor="@color/black"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.button.MaterialButton
