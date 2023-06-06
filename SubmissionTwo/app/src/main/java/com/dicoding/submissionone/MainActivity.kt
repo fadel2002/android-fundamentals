@@ -2,6 +2,7 @@ package com.dicoding.submissionone
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.RequiresApi
 import com.dicoding.submissionone.databinding.ActivityMainBinding
 

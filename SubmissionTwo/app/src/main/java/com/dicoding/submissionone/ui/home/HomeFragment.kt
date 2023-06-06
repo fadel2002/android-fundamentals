@@ -1,6 +1,5 @@
 package com.dicoding.submissionone.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -17,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.submissionone.R
-import com.dicoding.submissionone.data.UserResponse
 import com.dicoding.submissionone.databinding.FragmentHomeBinding
 import com.dicoding.submissionone.helper.PreferenceViewModelFactory
 import com.dicoding.submissionone.helper.SettingPreferences
@@ -26,7 +24,9 @@ import com.dicoding.submissionone.ui.home.setting.SettingViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class HomeFragment : Fragment() {
+class  HomeFragment : Fragment() {
+
+    private lateinit var adapter: HomeAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -45,6 +45,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        adapter = HomeAdapter(listOf())
+        binding.rvUser.adapter = adapter
         return binding.root
     }
 
@@ -58,7 +60,8 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.listUser.observe(viewLifecycleOwner) { listUser ->
-            setUserData(listUser)
+            adapter.updateData(listUser)
+            adapter.notifyDataSetChanged()
         }
 
         val layoutManager = LinearLayoutManager(activity)
@@ -186,11 +189,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setUserData(listUser: List<UserResponse>) {
-        val adapter = HomeAdapter(listUser)
-        binding.rvUser.adapter = adapter
-        adapter.notifyDataSetChanged()
+    override fun onResume() {
+        super.onResume()
+
+        if (binding.bottomNavigation.selectedItemId == R.id.favorite){
+            homeViewModel.loadFavoriteListUser(viewLifecycleOwner)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

@@ -10,7 +10,7 @@ import com.dicoding.submissionone.data.UserResponse
 import com.dicoding.submissionone.databinding.ItemRowUserBinding
 
 class HomeAdapter(
-    private val listUser: List<UserResponse>
+    private var listUser: List<UserResponse>
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -38,4 +38,9 @@ class HomeAdapter(
     override fun getItemCount(): Int = listUser.size
 
     class ViewHolder(var binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root)
+
+    fun updateData(newData: List<UserResponse>) {
+        listUser = newData
+        notifyDataSetChanged()
+    }
 }
